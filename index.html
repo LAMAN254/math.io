@@ -426,6 +426,13 @@ body{
   font-family:'Fredoka One',cursive;
 }
 
+/* ── ADMIN ── */
+.adm-log-line{padding:3px 0;border-top:1px solid var(--gray-lt);}
+.adm-log-line:first-child{border:none;}
+.adm-log-ok{color:var(--green-dk);}
+.adm-log-err{color:var(--red-dk);}
+.adm-log-warn{color:var(--orange);}
+
 /* Toast */
 .toast{
   position:fixed;top:18px;left:50%;transform:translateX(-50%);
@@ -452,6 +459,97 @@ body{
   .nb{width:62px;height:62px;font-size:1.3rem;}
   .boss-q-text{font-size:1.3rem;}
 }
+
+/* ══════════════════════════════════════════
+   ADMIN PANEL
+══════════════════════════════════════════ */
+.adm-header{
+  background:linear-gradient(135deg,#1a1a2e,#0a3d6b);
+  border-radius:14px;padding:16px 18px;
+  display:flex;align-items:center;gap:12px;margin-bottom:18px;
+}
+.adm-header .adm-crown{font-size:2rem;}
+.adm-header h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:#fff;margin:0;}
+.adm-header p{font-size:.75rem;color:rgba(255,255,255,.6);margin:2px 0 0;}
+
+.adm-select{
+  width:100%;padding:12px 14px;font-family:'Nunito',sans-serif;font-weight:700;
+  font-size:.9rem;border:2.5px solid var(--gray-lt);border-radius:12px;
+  outline:none;background:var(--white);color:var(--text);
+  transition:border .2s;margin-bottom:14px;cursor:pointer;
+}
+.adm-select:focus{border-color:var(--blue);}
+
+.adm-user-badge{
+  background:linear-gradient(135deg,var(--blue-bg),#c8eeff);
+  border:2px solid var(--blue);border-radius:14px;
+  padding:13px 16px;margin-bottom:16px;
+}
+.adm-badge-name{font-size:1.1rem;font-weight:900;color:var(--navy);}
+.adm-badge-sub{font-size:.78rem;font-weight:700;color:#1a5a9a;margin-top:2px;}
+
+.adm-fields{}
+.adm-field-group{margin-bottom:12px;}
+.adm-field-label{
+  display:flex;align-items:center;gap:6px;
+  font-weight:800;font-size:.78rem;color:var(--gray);
+  text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;
+}
+.adm-field-label .adm-icon{font-size:1rem;}
+.adm-range-wrap{display:flex;align-items:center;gap:12px;}
+.adm-range{
+  flex:1;-webkit-appearance:none;appearance:none;
+  height:8px;border-radius:4px;background:var(--gray-lt);outline:none;cursor:pointer;
+}
+.adm-range::-webkit-slider-thumb{
+  -webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:var(--blue);box-shadow:0 2px 6px rgba(28,176,246,.4);cursor:pointer;
+  transition:transform .15s;
+}
+.adm-range::-webkit-slider-thumb:hover{transform:scale(1.2);}
+.adm-range.lives-range::-webkit-slider-thumb{background:var(--red);}
+.adm-range.coins-range::-webkit-slider-thumb{background:var(--gold);}
+.adm-range.xp-range::-webkit-slider-thumb{background:var(--green);}
+.adm-range.streak-range::-webkit-slider-thumb{background:var(--orange);}
+.adm-val{
+  min-width:52px;text-align:center;font-weight:900;font-size:1rem;
+  color:var(--navy);background:var(--bg);border-radius:8px;padding:4px 8px;
+  border:2px solid var(--gray-lt);
+}
+.adm-val.editing{border-color:var(--blue);color:var(--blue);}
+
+.adm-inp{
+  width:100%;padding:11px 14px;font-family:'Nunito',sans-serif;font-weight:700;
+  font-size:.95rem;border:2.5px solid var(--gray-lt);border-radius:12px;
+  outline:none;background:var(--white);color:var(--text);transition:border .2s;
+}
+.adm-inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(28,176,246,.12);}
+
+.adm-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 12px;}
+.adm-action-danger{grid-column:span 2;}
+
+.adm-log{
+  background:#0a1628;border-radius:12px;padding:12px 14px;
+  min-height:60px;max-height:130px;overflow-y:auto;
+  font-size:.78rem;font-family:monospace;
+}
+.adm-log-line{padding:2px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.adm-log-ok  {color:#58cc02;}
+.adm-log-warn{color:#ffd900;}
+.adm-log-err {color:#ff4b4b;}
+
+.adm-empty{
+  text-align:center;padding:20px;color:var(--gray);
+  font-weight:700;font-size:.9rem;
+}
+.adm-stats-strip{
+  display:flex;gap:6px;margin-bottom:16px;
+}
+.adm-stat-mini{
+  flex:1;background:var(--bg);border-radius:10px;padding:8px 6px;
+  text-align:center;font-size:.7rem;font-weight:800;color:var(--gray);
+}
+.adm-stat-mini .asv{font-size:1rem;font-weight:900;color:var(--navy);display:block;margin-bottom:2px;}
 </style>
 </head>
 <body>
@@ -496,7 +594,10 @@ body{
 <div id="home-screen" class="screen">
   <div class="topbar">
     <span class="logo">🦉 MathQuest</span>
-    <button class="btn btn-sm btn-outline" onclick="openProfile()">👤 Perfil</button>
+    <div style="display:flex;gap:6px">
+      <button class="btn btn-sm btn-outline" onclick="openProfile()">👤 Perfil</button>
+      <button class="btn btn-sm" id="adm-btn" onclick="openAdmin()" style="display:none;background:#1a1a2e;color:#fff;box-shadow:0 3px 0 #000;font-size:.75rem">⚙️ Admin</button>
+    </div>
   </div>
   <div class="chips" id="chips">
     <div class="chip" id="ch-xp"><span class="ci">⭐</span><span id="h-xp">0 XP</span></div>
@@ -645,10 +746,80 @@ body{
   </div>
 </div>
 
+<!-- ═══════ ADMIN PANEL MODAL ═══════ -->
+<div class="overlay" id="modal-admin">
+  <div class="modal" style="max-width:440px;">
+    <div class="adm-header">
+      <span class="adm-crown">&#128081;</span>
+      <div>
+        <h3>Panel de Admin</h3>
+        <p>Gestiona usuarios y recursos</p>
+      </div>
+      <button class="btn btn-sm" style="margin-left:auto;background:rgba(255,255,255,.1);color:#fff;box-shadow:none;border:1px solid rgba(255,255,255,.3)" onclick="closeModal('modal-admin')">&#10005;</button>
+    </div>
+    <div class="adm-stats-strip" id="adm-global-stats"></div>
+    <label style="font-weight:800;font-size:.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">&#128101; Seleccionar usuario</label>
+    <select class="adm-select" id="adm-user-sel" onchange="admLoadUser()">
+      <option value="">-- Elige un usuario --</option>
+    </select>
+    <div class="adm-user-badge" id="adm-user-badge" style="display:none">
+      <div class="adm-badge-name" id="adm-badge-name">-</div>
+      <div class="adm-badge-sub"  id="adm-badge-sub">-</div>
+    </div>
+    <div class="adm-empty" id="adm-empty">&#9757;&#65039; Selecciona un usuario para editarlo</div>
+    <div id="adm-fields" style="display:none">
+      <div class="adm-field-group">
+        <div class="adm-field-label"><span class="adm-icon">&#10084;&#65039;</span> Vidas (0-5)</div>
+        <div class="adm-range-wrap">
+          <input type="range" class="adm-range lives-range" id="adm-lives" min="0" max="5" step="1" value="5"
+            oninput="gid('adm-lives-val').textContent=this.value;gid('adm-lives-val').className='adm-val editing'"/>
+          <span class="adm-val" id="adm-lives-val">5</span>
+        </div>
+      </div>
+      <div class="adm-field-group">
+        <div class="adm-field-label"><span class="adm-icon">&#129695;</span> Monedas</div>
+        <div class="adm-range-wrap">
+          <input type="range" class="adm-range coins-range" id="adm-coins" min="0" max="9999" step="10" value="0"
+            oninput="gid('adm-coins-val').textContent=this.value;gid('adm-coins-val').className='adm-val editing'"/>
+          <span class="adm-val" id="adm-coins-val">0</span>
+        </div>
+      </div>
+      <div class="adm-field-group">
+        <div class="adm-field-label"><span class="adm-icon">&#11088;</span> XP</div>
+        <div class="adm-range-wrap">
+          <input type="range" class="adm-range xp-range" id="adm-xp" min="0" max="5000" step="50" value="0"
+            oninput="gid('adm-xp-val').textContent=this.value;gid('adm-xp-val').className='adm-val editing'"/>
+          <span class="adm-val" id="adm-xp-val">0</span>
+        </div>
+      </div>
+      <div class="adm-field-group">
+        <div class="adm-field-label"><span class="adm-icon">&#128293;</span> Racha (dias)</div>
+        <div class="adm-range-wrap">
+          <input type="range" class="adm-range streak-range" id="adm-streak" min="0" max="365" step="1" value="0"
+            oninput="gid('adm-streak-val').textContent=this.value;gid('adm-streak-val').className='adm-val editing'"/>
+          <span class="adm-val" id="adm-streak-val">0</span>
+        </div>
+      </div>
+      <div class="adm-actions">
+        <button class="btn btn-green" onclick="admSave()">&#128190; Guardar cambios</button>
+        <button class="btn btn-blue btn-sm" onclick="admUnlockAll()">&#128275; Desbloquear todo</button>
+        <div class="adm-action-danger">
+          <button class="btn btn-sm btn-full" style="background:var(--red-bg);color:var(--red-dk);border:2px solid var(--red);box-shadow:none" onclick="admResetProgress()">&#128465;&#65039; Resetear progreso</button>
+        </div>
+        <div class="adm-action-danger" style="margin-top:4px">
+          <button class="btn btn-sm btn-full" style="background:#1a1a2e;color:#ff6b6b;border:none;box-shadow:none" onclick="admDeleteUser()">&#10060; Eliminar usuario permanentemente</button>
+        </div>
+      </div>
+    </div>
+    <div style="font-weight:800;font-size:.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;">&#128203; Registro de actividad</div>
+    <div class="adm-log" id="adm-log"><div class="adm-log-line adm-log-warn">Panel iniciado</div></div>
+  </div>
+</div>
+
 <script>
-/* ═══════════════════════════════════════════════════════════
-   MATHQUEST V3 — Full Engine
-═══════════════════════════════════════════════════════════ */
+/* =============================================================
+   MATHQUEST V3 - Full Engine
+============================================================= */
 
 /* ── STORAGE ── */
 const SK='mq3_u', PK='mq3_p_';
@@ -876,15 +1047,7 @@ function doRegister(){
   sp(id,p);CU=users[id];CP=p;
   toast('✅ ¡Bienvenido, '+name+'!');showHome();
 }
-function doLogin(){
-  const name=gid('ln').value.trim(),pass=gid('lp').value;
-  if(!name||!pass){markErr(!name?'ln':'lp');return;}
-  const found=Object.values(lu()).find(u=>u.name.toLowerCase()===name.toLowerCase()&&u.pass===hashPass(pass));
-  if(!found){toast('❌ Nombre o contraseña incorrectos');markErr('lp');return;}
-  CU=found;let p=lp(found.id);
-  if(!p) p={xp:0,streak:0,lives:5,coins:0,done:[],perfectCount:0,achievements:[],dailyDone:0,lastDay:'',totalCorrect:0,errMap:{},bossWin:false,lastLifeRegen:Date.now(),inventory:[],skin:'🦉'};
-  CP=p;regenLives();toast('👋 ¡Hola, '+found.name+'!');showHome();
-}
+/* doLogin handled by admin system below */
 function doLogout(){CU=null;CP=null;closeModal('modal-profile');showScreen('auth-screen');}
 
 /* ── LIVES REGEN ── */
@@ -1388,11 +1551,213 @@ function openProfile(){
   openModal('modal-profile');
 }
 
+/* ════════════════════════════════════════
+   ADMIN SYSTEM
+════════════════════════════════════════ */
+const ADMIN_NAME = 'admin';
+const ADMIN_PASS = hashPass('admin123'); // change this password!
+
+let admTargetId = null; // user being edited
+
+/* Ensure admin account always exists */
+function ensureAdmin(){
+  const users = lu();
+  if(!Object.values(users).find(u => u.name.toLowerCase() === ADMIN_NAME)){
+    const id = 'admin_' + genId();
+    users[id] = { id, name:'admin', pass: ADMIN_PASS, nivel:'funciones', edad:null, isAdmin:true };
+    su(users);
+    const p = { xp:9999, streak:99, lives:5, coins:9999, done:[], perfectCount:0,
+                achievements:[], dailyDone:0, lastDay:'', totalCorrect:0,
+                errMap:{}, bossWin:true, lastLifeRegen:Date.now(), inventory:[], skin:'👑' };
+    sp(id, p);
+  }
+}
+
+/* Override doLogin to detect admin */
+function doLogin(){
+  const name = gid('ln').value.trim(), pass = gid('lp').value;
+  if(!name||!pass){ markErr(!name?'ln':'lp'); return; }
+  const found = Object.values(lu()).find(u =>
+    u.name.toLowerCase() === name.toLowerCase() && u.pass === hashPass(pass)
+  );
+  if(!found){ toast('❌ Nombre o contraseña incorrectos'); markErr('lp'); return; }
+  CU = found;
+  let p = lp(found.id);
+  if(!p) p = { xp:0, streak:0, lives:5, coins:0, done:[], perfectCount:0,
+               achievements:[], dailyDone:0, lastDay:'', totalCorrect:0,
+               errMap:{}, bossWin:false, lastLifeRegen:Date.now(), inventory:[], skin:'🦉' };
+  CP = p;
+  regenLives();
+  // Show/hide admin button
+  gid('adm-btn').style.display = found.isAdmin ? 'inline-flex' : 'none';
+  toast(found.isAdmin ? '👑 Bienvenido, Admin!' : '👋 ¡Hola, '+found.name+'!');
+  showHome();
+}
+
+/* Open admin panel */
+function openAdmin(){
+  if(!CU?.isAdmin){ toast('⛔ Sin permisos'); return; }
+  admRefreshSelect();
+  admTargetId = null;
+  gid('adm-fields').style.display = 'none';
+  gid('adm-empty').style.display  = 'block';
+  gid('adm-user-badge').style.display = 'none';
+  gid('adm-log').innerHTML = '';
+  openModal('modal-admin');
+}
+
+function admRefreshSelect(){
+  const sel = gid('adm-user-sel');
+  const users = lu();
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">-- Elige un usuario --</option>';
+  const nonAdmins = Object.values(users).filter(u => !u.isAdmin);
+  nonAdmins.forEach(u => {
+    const p = lp(u.id) || {};
+    const opt = document.createElement('option');
+    opt.value = u.id;
+    opt.textContent = u.name + '  (Nv.' + getLevel(p.xp||0) + ' · ' + (p.xp||0) + ' XP · ❤' + (p.lives||0) + ' · ' + (p.coins||0) + ' coins)';
+    if(u.id === cur) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  // Global stats strip
+  const gs = gid('adm-global-stats');
+  if(gs){
+    const totalXP    = nonAdmins.reduce((s,u)=>s+(lp(u.id)||{}).xp||0, 0);
+    const totalDone  = nonAdmins.reduce((s,u)=>s+((lp(u.id)||{}).done||[]).length, 0);
+    gs.innerHTML = [
+      ['👥', nonAdmins.length,  'Usuarios'],
+      ['⭐',  totalXP,          'XP total'],
+      ['📚', totalDone,         'Lecciones'],
+    ].map(([ico,val,lbl])=>
+      '<div class="adm-stat-mini"><span class="asv">'+ico+' '+val+'</span>'+lbl+'</div>'
+    ).join('');
+  }
+}
+
+function admLoadUser(){
+  const id = gid('adm-user-sel').value;
+  if(!id){
+    admTargetId=null;
+    gid('adm-fields').style.display='none';
+    gid('adm-empty').style.display='block';
+    gid('adm-user-badge').style.display='none';
+    return;
+  }
+  admTargetId = id;
+  const users = lu();
+  const u = users[id];
+  const p = lp(id) || {};
+  // badge
+  gid('adm-badge-name').textContent = (u.name||'?') + (u.isAdmin?' 👑':'');
+  const age = u.edad ? u.edad+' años' : 'edad no indicada';
+  gid('adm-badge-sub').textContent = 'Nivel: '+(u.nivel||'-')+' · '+age+' · XP: '+(p.xp||0)+' · Lecciones: '+((p.done||[]).length)+' · Racha: '+(p.streak||0);
+  gid('adm-user-badge').style.display = 'block';
+  // Sliders + display values
+  const lives  = Math.min(p.lives||0, 5);
+  const coins  = p.coins||0;
+  const xp     = p.xp||0;
+  const streak = p.streak||0;
+  gid('adm-lives').value   = lives;   gid('adm-lives-val').textContent  = lives;   gid('adm-lives-val').className  = 'adm-val';
+  gid('adm-coins').value   = coins;   gid('adm-coins-val').textContent  = coins;   gid('adm-coins-val').className  = 'adm-val';
+  gid('adm-xp').value      = xp;      gid('adm-xp-val').textContent     = xp;      gid('adm-xp-val').className     = 'adm-val';
+  gid('adm-streak').value  = streak;  gid('adm-streak-val').textContent = streak;  gid('adm-streak-val').className = 'adm-val';
+  gid('adm-fields').style.display = 'block';
+  gid('adm-empty').style.display  = 'none';
+  admLog('👁 Cargado: ' + u.name, 'warn');
+}
+
+function admSave(){
+  if(!admTargetId){ toast('⚠️ Selecciona un usuario'); return; }
+  const p = lp(admTargetId) || {};
+  const lives  = Math.min(Math.max(parseInt(gid('adm-lives').value)||0, 0), 5);
+  const coins  = Math.max(parseInt(gid('adm-coins').value)||0, 0);
+  const xp     = Math.max(parseInt(gid('adm-xp').value)||0, 0);
+  const streak = Math.max(parseInt(gid('adm-streak').value)||0, 0);
+
+  const changes = [];
+  if((p.lives||0)  !== lives)  changes.push('❤️ vidas: '+(p.lives||0)+'→'+lives);
+  if((p.coins||0)  !== coins)  changes.push('🪙 monedas: '+(p.coins||0)+'→'+coins);
+  if((p.xp||0)     !== xp)     changes.push('⭐ XP: '+(p.xp||0)+'→'+xp);
+  if((p.streak||0) !== streak) changes.push('🔥 racha: '+(p.streak||0)+'→'+streak);
+
+  p.lives  = lives;
+  p.coins  = coins;
+  p.xp     = xp;
+  p.streak = streak;
+  if(lives < 5 && !p.lastLifeRegen) p.lastLifeRegen = Date.now();
+  if(lives >= 5) p.lastLifeRegen = null;
+
+  sp(admTargetId, p);
+
+  // Refresh display values to remove "editing" highlight
+  gid('adm-lives-val').className  = 'adm-val';
+  gid('adm-coins-val').className  = 'adm-val';
+  gid('adm-xp-val').className     = 'adm-val';
+  gid('adm-streak-val').className = 'adm-val';
+
+  // If editing the currently logged-in user, refresh home UI instantly
+  if(CU && admTargetId === CU.id){ CP = p; updateHomeUI(); }
+
+  admLog(changes.length ? '✅ Guardado: '+changes.join(' | ') : '✅ Sin cambios detectados', 'ok');
+  admRefreshSelect();
+  toast('💾 Cambios guardados!');
+  snd('coin');
+}
+
+function admResetProgress(){
+  if(!admTargetId) return;
+  if(!confirm('¿Resetear TODO el progreso de este usuario?')) return;
+  const p = lp(admTargetId) || {};
+  p.xp=0; p.coins=0; p.lives=5; p.streak=0; p.done=[]; p.perfectCount=0;
+  p.achievements=[]; p.dailyDone=0; p.totalCorrect=0; p.errMap={}; p.bossWin=false;
+  sp(admTargetId, p);
+  admLog('⚠️ Progreso reseteado', 'warn');
+  admRefreshSelect(); admLoadUser(); toast('🗑️ Progreso reseteado');
+}
+
+function admUnlockAll(){
+  if(!admTargetId) return;
+  const p = lp(admTargetId) || {};
+  p.done = SECTIONS.flatMap(s => s.lessons.map(l => l.id));
+  sp(admTargetId, p);
+  admLog('🔓 Todo desbloqueado', 'warn');
+  admRefreshSelect(); admLoadUser(); toast('🔓 Todo desbloqueado');
+}
+
+function admDeleteUser(){
+  if(!admTargetId) return;
+  const users = lu();
+  const name = users[admTargetId]?.name || 'usuario';
+  if(!confirm(`¿Eliminar permanentemente a "${name}"?`)) return;
+  // Can't delete yourself
+  if(admTargetId === CU?.id){ toast('⛔ No puedes eliminarte a ti mismo'); return; }
+  delete users[admTargetId];
+  su(users);
+  localStorage.removeItem(PK + admTargetId);
+  admTargetId = null;
+  gid('adm-fields').style.display = 'none';
+  gid('adm-user-badge').style.display = 'none';
+  gid('adm-empty').style.display = 'block';
+  admRefreshSelect(); admLog(`❌ Usuario "${name}" eliminado`, 'err');
+  toast('❌ Usuario eliminado');
+}
+
+function admLog(msg, type='ok'){
+  const log = gid('adm-log');
+  const line = document.createElement('div');
+  line.className = `adm-log-line adm-log-${type}`;
+  line.textContent = new Date().toLocaleTimeString() + ' — ' + msg;
+  log.prepend(line);
+  // Keep max 8 lines
+  while(log.children.length > 8) log.removeChild(log.lastChild);
+}
+
 /* ── INIT ── */
 (function(){
-  const users=lu();const all=Object.values(users);
+  ensureAdmin();
+  const users=lu();const all=Object.values(users).filter(u=>!u.isAdmin);
   if(all.length>0){ gid('ln').value=all[all.length-1].name; switchTab('log'); }
-  // Motivational phrase rotation
   const phrases=['Sube tu nivel 🚀','¡Vence al Jefe Final! ⚔️','Gana monedas 🪙','Domina las funciones 📈'];
   gid('auth-mascot').title=phrases[Math.floor(Math.random()*phrases.length)];
 })();
